@@ -1,0 +1,47 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class TiendaRopa {
+
+    private static final String ARCHIVO_ROPA = "catalogo_ropa.txt";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Bienvenido al sistema de alta de prendas para la tienda de ropa.");
+        String opcion;
+
+        do {
+            System.out.print("Ingrese el nombre de la prenda: ");
+            String nombrePrenda = scanner.nextLine();
+
+            System.out.print("Ingrese la talla de la prenda (Ej. S, M, L): ");
+            String talla = scanner.nextLine();
+
+            System.out.print("Ingrese el precio de la prenda: ");
+            double precio = scanner.nextDouble();
+            scanner.nextLine();  // Consumir el salto de línea después de la entrada de precio
+
+            // Guardar la prenda en el archivo
+            agregarPrenda(nombrePrenda, talla, precio);
+
+            System.out.print("¿Desea agregar otra prenda? (s/n): ");
+            opcion = scanner.nextLine();
+
+        } while (opcion.equalsIgnoreCase("s"));
+
+        System.out.println("Gracias por usar el sistema de alta de prendas.");
+        scanner.close();
+    }
+
+    private static void agregarPrenda(String nombrePrenda, String talla, double precio) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ARCHIVO_ROPA, true))) {
+            writer.println(nombrePrenda + "," + talla + "," + precio);
+            System.out.println("Prenda agregada con éxito.");
+        } catch (IOException e) {
+            System.out.println("Error al guardar la prenda.");
+        }
+    }
+}
